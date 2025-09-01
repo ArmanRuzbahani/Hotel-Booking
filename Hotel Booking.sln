@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Infrastruters", "2.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBookingInfrastruters", "Hotel Booking Infrastruters\HotelBookingInfrastruters.csproj", "{EA808F72-CEF5-4E19-8178-F50893934AC7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.End Point", "3.End Point", "{D40599F3-6EFF-47C1-8104-E8BFF710B337}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{49720164-9EAE-4B3D-B4B0-BFF6372FCFD5} = {D40599F3-6EFF-47C1-8104-E8BFF710B337}
 		{0DC22559-C8DB-407B-A00A-2E73F5A08D43} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{AAE5DB1C-53F9-4A00-B924-689130BA3228} = {0DC22559-C8DB-407B-A00A-2E73F5A08D43}
 		{EA808F72-CEF5-4E19-8178-F50893934AC7} = {55B1D43E-C287-4A95-9A1C-9B1617A27A63}

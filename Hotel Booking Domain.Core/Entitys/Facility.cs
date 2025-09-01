@@ -13,6 +13,6 @@ namespace Hotel_Booking_Domain.Core.Entitys
 
 		public string Name { get; set; }
 
-		public List<Hotel> hotels { get; set; }
+		public List<Hotel> Hotel { get; set; }
 	}
 }

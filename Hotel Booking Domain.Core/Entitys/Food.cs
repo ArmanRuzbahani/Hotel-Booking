@@ -14,6 +14,8 @@ namespace Hotel_Booking_Domain.Core.Entitys
 
 		public string Description { get; set; }
 
+		public string Picture {  get; set; }
+
 		public List<HotelFood> HotelFoods { get; set; }
 	}
 }

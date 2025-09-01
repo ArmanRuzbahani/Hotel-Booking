@@ -11,9 +11,9 @@ namespace Entitys_Hotel.Models
 		public string AdressName { get; set; }
 
 		[ForeignKey("User")]  
-		public int UserId { get; set; }
+		public int CustomerId { get; set; }
 
-		public User User { get; set; }
+		public Customer Customer { get; set; }
 	}
 
 }
