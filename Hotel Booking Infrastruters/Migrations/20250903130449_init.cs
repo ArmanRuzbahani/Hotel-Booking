@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hotel_Booking_Infrastruters.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Admins",
+                name: "admins",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,8 +22,10 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsEmailVerfied = table.Column<bool>(type: "bit", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPhoneNumberVerfied = table.Column<bool>(type: "bit", nullable: false),
                     CardId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserCreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -37,11 +39,11 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.PrimaryKey("PK_admins", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "customers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -49,8 +51,10 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsEmailVerfied = table.Column<bool>(type: "bit", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPhoneNumberVerfied = table.Column<bool>(type: "bit", nullable: false),
                     CardId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserCreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -64,7 +68,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.PrimaryKey("PK_customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,7 +100,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HotelManagers",
+                name: "hotelManager",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -104,8 +108,10 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsEmailVerfied = table.Column<bool>(type: "bit", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPhoneNumberVerfied = table.Column<bool>(type: "bit", nullable: false),
                     CardId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserCreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -119,7 +125,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HotelManagers", x => x.Id);
+                    table.PrimaryKey("PK_hotelManager", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,10 +141,33 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 {
                     table.PrimaryKey("PK_addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_addresses_Customers_CustomerId",
+                        name: "FK_addresses_customers_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "Customers",
+                        principalTable: "customers",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChatConversation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ConversationData = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatConversation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChatConversation_customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -161,9 +190,9 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 {
                     table.PrimaryKey("PK_hotels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_hotels_HotelManagers_HotelManagerId",
+                        name: "FK_hotels_hotelManager_HotelManagerId",
                         column: x => x.HotelManagerId,
-                        principalTable: "HotelManagers",
+                        principalTable: "hotelManager",
                         principalColumn: "Id");
                 });
 
@@ -203,9 +232,9 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 {
                     table.PrimaryKey("PK_hotelComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_hotelComments_Customers_CustomerId",
+                        name: "FK_hotelComments_customers_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "Customers",
+                        principalTable: "customers",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_hotelComments_hotels_HotelId",
@@ -329,9 +358,9 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 {
                     table.PrimaryKey("PK_bookings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_bookings_Customers_CustomerId",
+                        name: "FK_bookings_customers_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "Customers",
+                        principalTable: "customers",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_bookings_hotels_HotelId",
@@ -344,11 +373,6 @@ namespace Hotel_Booking_Infrastruters.Migrations
                         principalTable: "rooms",
                         principalColumn: "Id");
                 });
-
-            migrationBuilder.InsertData(
-                table: "Admins",
-                columns: new[] { "Id", "CardId", "City", "DateOfBirth", "Education", "Email", "Gender", "IsActive", "Job", "LastName", "MaritalStatus", "Name", "Nationality", "PhoneNumber", "Role", "UserCreateAt" },
-                values: new object[] { 1, "1234567890123456", 1, new DateTime(2005, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, "arman.ruzb@gmail.com", 1, true, 3, "روزبهانی", 2, "آرمان", 1, "+989123456789", 0, new DateTime(2025, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Facility",
@@ -376,6 +400,11 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     { 19, "آسانسور" },
                     { 20, "کتابخانه" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "admins",
+                columns: new[] { "Id", "CardId", "City", "DateOfBirth", "Education", "Email", "Gender", "IsActive", "IsEmailVerfied", "IsPhoneNumberVerfied", "Job", "LastName", "MaritalStatus", "Name", "Nationality", "PhoneNumber", "Role", "UserCreateAt" },
+                values: new object[] { 1, "1234567890123456", 1, new DateTime(2005, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, "arman.ruzb@gmail.com", 1, true, false, false, 3, "روزبهانی", 2, "آرمان", 1, "+989123456789", 0, new DateTime(2025, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "food",
@@ -438,6 +467,11 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChatConversation_CustomerId",
+                table: "ChatConversation",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_hotelAddresses_HotelId",
                 table: "hotelAddresses",
                 column: "HotelId");
@@ -490,10 +524,13 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 name: "addresses");
 
             migrationBuilder.DropTable(
-                name: "Admins");
+                name: "admins");
 
             migrationBuilder.DropTable(
                 name: "bookings");
+
+            migrationBuilder.DropTable(
+                name: "ChatConversation");
 
             migrationBuilder.DropTable(
                 name: "hotelAddresses");
@@ -514,7 +551,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 name: "rooms");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "customers");
 
             migrationBuilder.DropTable(
                 name: "Facility");
@@ -526,7 +563,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
                 name: "hotels");
 
             migrationBuilder.DropTable(
-                name: "HotelManagers");
+                name: "hotelManager");
         }
     }
 }

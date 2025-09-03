@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel_Booking_Infrastruters.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250831121040_Init")]
-    partial class Init
+    [Migration("20250903130449_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,12 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsEmailVerfied")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPhoneNumberVerfied")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("Job")
                         .HasColumnType("int");
 
@@ -104,7 +110,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admins", (string)null);
+                    b.ToTable("admins");
 
                     b.HasData(
                         new
@@ -117,6 +123,8 @@ namespace Hotel_Booking_Infrastruters.Migrations
                             Email = "arman.ruzb@gmail.com",
                             Gender = 1,
                             IsActive = true,
+                            IsEmailVerfied = false,
+                            IsPhoneNumberVerfied = false,
                             Job = 3,
                             LastName = "روزبهانی",
                             MaritalStatus = 2,
@@ -204,6 +212,12 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsEmailVerfied")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPhoneNumberVerfied")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("Job")
                         .HasColumnType("int");
 
@@ -231,7 +245,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("customers");
                 });
 
             modelBuilder.Entity("Entitys_Hotel.Models.Hotel", b =>
@@ -371,6 +385,12 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsEmailVerfied")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPhoneNumberVerfied")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("Job")
                         .HasColumnType("int");
 
@@ -398,7 +418,7 @@ namespace Hotel_Booking_Infrastruters.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HotelManagers", (string)null);
+                    b.ToTable("hotelManager");
                 });
 
             modelBuilder.Entity("Entitys_Hotel.Models.Room", b =>
@@ -455,6 +475,38 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("HotelFacilities", (string)null);
+                });
+
+            modelBuilder.Entity("Hotel_Booking_Domain.Core.Entitys.ChatConversation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConversationData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("ChatConversation");
                 });
 
             modelBuilder.Entity("Hotel_Booking_Domain.Core.Entitys.Facility", b =>
@@ -994,6 +1046,17 @@ namespace Hotel_Booking_Infrastruters.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Hotel_Booking_Domain.Core.Entitys.ChatConversation", b =>
+                {
+                    b.HasOne("Entitys_Hotel.Models.Customer", "Customer")
+                        .WithMany("Conversation")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Hotel_Booking_Domain.Core.Entitys.HotelFood", b =>
                 {
                     b.HasOne("Hotel_Booking_Domain.Core.Entitys.Food", "Food")
@@ -1029,6 +1092,8 @@ namespace Hotel_Booking_Infrastruters.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Bookings");
+
+                    b.Navigation("Conversation");
 
                     b.Navigation("HotelComments");
                 });
