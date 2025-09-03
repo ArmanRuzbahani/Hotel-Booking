@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBookingInfrastruters",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.End Point", "3.End Point", "{D40599F3-6EFF-47C1-8104-E8BFF710B337}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XUnit", "XUnit", "{09698897-AC12-4BF8-A124-D4E761FC8D84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.FrameWork", "0.FrameWork", "{F065F9F1-7389-43C9-A4F3-2C6936B73933}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

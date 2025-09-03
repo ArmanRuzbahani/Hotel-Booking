@@ -14,11 +14,15 @@ namespace Entitys_Hotel.Models
 
 		public string? Email { get; set; }
 
+		public bool IsEmailVerfied { get; set; } = false;
+
 		public DateTime DateOfBirth { get; set; }
 
 		public int? Age => (int)((DateTime.Now - DateOfBirth).TotalDays / 365.25);
 			
 		public string PhoneNumber { get; set; }
+
+		public bool IsPhoneNumberVerfied { get; set; } = false;
 
 		public string CardId { get; set; }
 			
