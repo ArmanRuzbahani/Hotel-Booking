@@ -5,7 +5,6 @@ namespace Entitys_Hotel.Models
 {
 	public class User
 	{
-		
 		public int Id { get; set; }
 
 		public string? Name { get; set; }
@@ -30,12 +29,6 @@ namespace Entitys_Hotel.Models
 
 		public bool IsActive { get; set; }
 
-		
-		
-
-
-
-
 		public UserJob? Job { get; set; }
 
 		public UserMarid? MaritalStatus { get; set; }
@@ -49,8 +42,5 @@ namespace Entitys_Hotel.Models
 		public IranCity? City { get; set; }
 
 		public UserRole Role { get; set; }
-
-		
-
 	}
 }
