@@ -9,6 +9,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Admin
 {
 	public class AdminUpdateDto
 	{
+		public int Id { get; set; }
 		public string? Name { get; set; }
 		public string? LastName { get; set; }
 		public string? Email { get; set; }

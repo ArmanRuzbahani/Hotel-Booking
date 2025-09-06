@@ -8,6 +8,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.HotelComments
 {
 	public class HotelCommentsUpdateDto
 	{
+		public int Id { get; set; }
 		public string Content { get; set; }
 		public int Rating { get; set; }
 	}

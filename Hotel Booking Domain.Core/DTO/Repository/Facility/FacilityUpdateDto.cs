@@ -8,6 +8,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Facility
 {
 	public class FacilityUpdateDto
 	{
+		public int Id { get; set; }
 		public string Name { get; set; }
 	}
 }

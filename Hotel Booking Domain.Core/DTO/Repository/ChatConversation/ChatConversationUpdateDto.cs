@@ -8,6 +8,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.ChatConversation
 {
 	public class ChatConversationUpdateDto
 	{
+		public int Id { get; set; }
 		public string Title { get; set; }
 	}
 }

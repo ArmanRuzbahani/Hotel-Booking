@@ -8,6 +8,7 @@ namespace Hotel_Booking_Domain.Core.DTO.HotelAddress
 {
 	public class HotelAddressUpdateDto
 	{
+		public int Id { get; set; }
 		public string AddressName { get; set; }
 		public string Address { get; set; }
 	}

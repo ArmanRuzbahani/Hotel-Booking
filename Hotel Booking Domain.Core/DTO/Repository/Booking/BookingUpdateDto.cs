@@ -8,6 +8,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Booking
 {
 	public class BookingUpdateDto
 	{
+		public int Id { get; set; }
 		public DateTime? CheckInDate { get; set; }
 		public DateTime? CheckOutDate { get; set; }
 		public int? NumberOfGuests { get; set; }

@@ -12,11 +12,11 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 	{
 		Task<IReadOnlyCollection<Booking>> GetAllBookingsAsync(CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<Booking>> GetBookingsByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<Booking?>> GetBookingsByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<Booking>> GetBookingsByHotelIdAsync(int hotelId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<Booking?>> GetBookingsByHotelIdAsync(int hotelId, CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<Booking>> GetBookingsByRoomIdAsync(int roomId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<Booking?>> GetBookingsByRoomIdAsync(int roomId, CancellationToken cancellationToken);
 
 		Task<Booking?> GetBookingByIdAsync(int bookingId, CancellationToken cancellationToken);
 

@@ -11,6 +11,7 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 	public interface IAdminRepository
 	{
 		Task<IReadOnlyCollection<Admin>> GetAllAdmins(CancellationToken cancellationToken);
+		Task<Admin> GetAdminById(int Id, CancellationToken cancellationToken);
 		Task<bool> DeleteAdmin(CancellationToken cancellationToken);
 		Task<Admin> UpdateAdmin(AdminUpdateDto adminUpdateDto,CancellationToken cancellationToken);
 	}

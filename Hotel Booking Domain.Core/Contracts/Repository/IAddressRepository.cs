@@ -12,7 +12,7 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 	{
 		Task<IReadOnlyCollection<Address>> GetAllAddressesAsync(CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<Address>> GetAddressesByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+		Task<Address?> GetAddressesByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
 
 		Task<Address> CreateAddressAsync(AddressCreateDto addressCreateDto, CancellationToken cancellationToken);
 
