@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.FrameWork", "0.FrameWork"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.Hotel Booking Application Service.Core", "Hotel Booking Application Service\2.Hotel Booking Application Service.Core.csproj", "{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel Booking APIs", "Hotel Booking APIs\Hotel Booking APIs.csproj", "{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{AAE5DB1C-53F9-4A00-B924-689130BA3228} = {0DC22559-C8DB-407B-A00A-2E73F5A08D43}
 		{EA808F72-CEF5-4E19-8178-F50893934AC7} = {55B1D43E-C287-4A95-9A1C-9B1617A27A63}
 		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F} = {0DC22559-C8DB-407B-A00A-2E73F5A08D43}
+		{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2} = {D40599F3-6EFF-47C1-8104-E8BFF710B337}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {470D158A-7642-414C-B5ED-8D0F0D0A10D5}
