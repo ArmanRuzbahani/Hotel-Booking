@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Domain", "1.Domain", "{02
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0DC22559-C8DB-407B-A00A-2E73F5A08D43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel Booking Domain.Core", "Hotel Booking Domain.Core\Hotel Booking Domain.Core.csproj", "{AAE5DB1C-53F9-4A00-B924-689130BA3228}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.Hotel Booking Domain.Core", "Hotel Booking Domain.Core\1.Hotel Booking Domain.Core.csproj", "{AAE5DB1C-53F9-4A00-B924-689130BA3228}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Infrastruters", "2.Infrastruters", "{55B1D43E-C287-4A95-9A1C-9B1617A27A63}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XUnit", "XUnit", "{09698897-AC12-4BF8-A124-D4E761FC8D84}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.FrameWork", "0.FrameWork", "{F065F9F1-7389-43C9-A4F3-2C6936B73933}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.Hotel Booking Application Service.Core", "Hotel Booking Application Service\2.Hotel Booking Application Service.Core.csproj", "{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{EA808F72-CEF5-4E19-8178-F50893934AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA808F72-CEF5-4E19-8178-F50893934AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA808F72-CEF5-4E19-8178-F50893934AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{0DC22559-C8DB-407B-A00A-2E73F5A08D43} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{AAE5DB1C-53F9-4A00-B924-689130BA3228} = {0DC22559-C8DB-407B-A00A-2E73F5A08D43}
 		{EA808F72-CEF5-4E19-8178-F50893934AC7} = {55B1D43E-C287-4A95-9A1C-9B1617A27A63}
+		{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F} = {0DC22559-C8DB-407B-A00A-2E73F5A08D43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {470D158A-7642-414C-B5ED-8D0F0D0A10D5}

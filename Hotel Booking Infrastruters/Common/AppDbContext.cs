@@ -12,14 +12,11 @@ namespace Hotel_Booking_Infrastruters.Common
 {
 	public class AppDbContext : DbContext
 	{
-
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.UseSqlServer(@"Server=ARMAN\SQLEXPRESS;Database=HotelBooking;Trusted_Connection=True;TrustServerCertificate=True;Integrated Security=True;");
-
 			base.OnConfiguring(optionsBuilder);
 		}
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Booking>().HasOne(c => c.Hotel).WithMany(c => c.Bookings).HasForeignKey(c => c.HotelId).OnDelete(DeleteBehavior.NoAction);
@@ -37,14 +34,11 @@ namespace Hotel_Booking_Infrastruters.Common
 			modelBuilder.Entity<HotelFood>().HasOne(c => c.Hotel).WithMany(c => c.hotelFoods).HasForeignKey(c => c.HotelId).OnDelete(DeleteBehavior.NoAction);
 			modelBuilder.Entity<HotelFood>().HasOne(c => c.Food).WithMany(c => c.HotelFoods).HasForeignKey(c => c.FoodId).OnDelete(DeleteBehavior.NoAction);
 			modelBuilder.Entity<Customer>().HasMany(c => c.Conversation).WithOne(c => c.Customer).HasForeignKey(c => c.CustomerId).OnDelete(DeleteBehavior.Cascade);
-
 			modelBuilder.ApplyConfiguration(new FoodConfiguration());
 			modelBuilder.ApplyConfiguration(new FacilityConfiguration());
 			modelBuilder.ApplyConfiguration(new AdminConfiguration());
-
 			base.OnModelCreating(modelBuilder);
 		}
-
 		public DbSet<Address> addresses { get; set; }
 		public DbSet<Admin> admins { get; set; }
 		public DbSet<Booking> bookings { get; set; }
@@ -59,6 +53,5 @@ namespace Hotel_Booking_Infrastruters.Common
 		public DbSet<HotelRules> hotelRules { get; set; }
 		public DbSet<HotelFood> hotelFood { get; set; }
 		public DbSet<ChatConversation> chatConversations { get; set; }
-
 	}
 }
