@@ -14,7 +14,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Customer
 		public string LastName { get; set; }
 		public string Email { get; set; }
 		public DateTime DateOfBirth { get; set; }
-		public int Age { get; set; }
+		public int? Age { get; set; }
 		public string PhoneNumber { get; set; }
 		public string CardId { get; set; }
 		public DateTime UserCreateAt { get; set; }
@@ -24,6 +24,6 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Customer
 		public UserGender? Gender { get; set; }
 		public UserEducation? Education { get; set; }
 		public UserNationality? Nationality { get; set; }
-		public IranCity CustomerCity { get; set; }
+		public IranCity? CustomerCity { get; set; }
 	}
 }

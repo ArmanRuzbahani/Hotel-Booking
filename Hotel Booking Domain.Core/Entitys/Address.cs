@@ -8,7 +8,7 @@ namespace Entitys_Hotel.Models
 		[Key]  
 		public int Id { get; set; }
 
-		public string AdressName { get; set; }
+		public string AddressName { get; set; }
 
 		[ForeignKey("User")]  
 		public int CustomerId { get; set; }
