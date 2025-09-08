@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Hotel Booking Domain.Core\1.Hotel Booking Domain.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
