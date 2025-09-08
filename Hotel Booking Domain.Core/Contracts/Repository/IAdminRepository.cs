@@ -10,9 +10,9 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 {
 	public interface IAdminRepository
 	{
-		Task<IReadOnlyCollection<Admin>> GetAllAdminsAsync(CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<AdminReadDto>> GetAllAdminsAsync(CancellationToken cancellationToken);
 
-		Task<Admin?> GetAdminByIdAsync(int id, CancellationToken cancellationToken);
+		Task<AdminReadDto?> GetAdminByIdAsync(int id, CancellationToken cancellationToken);
 
 		Task<bool> DeleteAdminAsync(int id, CancellationToken cancellationToken);
 
