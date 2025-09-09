@@ -10,9 +10,9 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 {
 	public interface ICustomerRepository
 	{
-		Task<IReadOnlyCollection<Customer>> GetAllCustomers(CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<CustomerReadDto>> GetAllCustomers(CancellationToken cancellationToken);
 
-		Task<Customer> GetCustomerForProfileById(int Id,CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<CustomerReadDto>> GetCustomerForProfileById(int Id,CancellationToken cancellationToken);
 
 		Task<Customer> CreateCustomer(CustomerCreateDto customerCreateDto, CancellationToken cancellationToken);
 

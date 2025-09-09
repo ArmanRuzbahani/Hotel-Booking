@@ -10,9 +10,9 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 {
 	public interface IChatConversationRepository
 	{
-		Task<IReadOnlyCollection<ChatConversation?>> GetAllTheConversations(CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<ChatConversationReadDto?>> GetAllTheConversations(CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<ChatConversation?>> GetAllTheConversationsByCustomerId(int customerId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<ChatConversationReadDto?>> GetAllTheConversationsByCustomerId(int customerId, CancellationToken cancellationToken);
 
 		Task<ChatConversation> CreateChatConversation(ChatConversationCreateDto chatConversationCreateDto, CancellationToken cancellationToken);
 

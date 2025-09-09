@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Hotel_Booking_Infrastruters.Repository
@@ -17,9 +16,9 @@ namespace Hotel_Booking_Infrastruters.Repository
 		private readonly AppDbContext _appDbContext;
 		private readonly ILogger<AdminRepository> _logger;
 
-		public AdminRepository(AppDbContext appDbContext,ILogger<AdminRepository> logger)
+		public AdminRepository(AppDbContext appDbContext, ILogger<AdminRepository> logger)
 		{
-			appDbContext = _appDbContext ?? throw new ArgumentNullException(nameof(appDbContext));
+			_appDbContext = appDbContext ?? throw new ArgumentNullException(nameof(appDbContext));
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -27,28 +26,33 @@ namespace Hotel_Booking_Infrastruters.Repository
 		{
 			try
 			{
-              var admin = await _appDbContext.admins.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+				var admin = await _appDbContext.admins.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
 				if (admin == null)
 				{
-					throw new ArgumentException($"Admin with ID {id} not found.");
+					_logger.LogWarning("Admin with ID {AdminId} not found for deletion.", id);
+					return false;
 				}
 
 				_appDbContext.admins.Remove(admin);
 				await _appDbContext.SaveChangesAsync(cancellationToken);
 
+				_logger.LogInformation("Admin with ID {AdminId} deleted successfully.", id);
 				return true;
-			}
-			catch (ArgumentException ex)
-			{
-				throw; 
 			}
 			catch (DbUpdateException ex)
 			{
+				_logger.LogError(ex, "Database error while deleting admin with ID {AdminId}", id);
 				throw new InvalidOperationException("An error occurred while deleting the admin.", ex);
+			}
+			catch (OperationCanceledException)
+			{
+				_logger.LogWarning("Delete operation for admin with ID {AdminId} was canceled.", id);
+				throw;
 			}
 			catch (Exception ex)
 			{
+				_logger.LogError(ex, "Unexpected error while deleting admin with ID {AdminId}", id);
 				throw new InvalidOperationException("An unexpected error occurred while deleting the admin.", ex);
 			}
 		}
@@ -83,11 +87,16 @@ namespace Hotel_Booking_Infrastruters.Repository
 					})
 					.FirstOrDefaultAsync(cancellationToken);
 
+				if (admin == null)
+					_logger.LogWarning("Admin with ID {AdminId} not found.", id);
+				else
+					_logger.LogInformation("Admin with ID {AdminId} retrieved successfully.", id);
+
 				return admin;
 			}
 			catch (Exception ex)
 			{
-			
+				_logger.LogError(ex, "Error retrieving admin with ID {AdminId}", id);
 				throw new InvalidOperationException($"An error occurred while retrieving admin with ID {id}.", ex);
 			}
 		}
@@ -121,10 +130,12 @@ namespace Hotel_Booking_Infrastruters.Repository
 					})
 					.ToListAsync(cancellationToken);
 
+				_logger.LogInformation("Retrieved {Count} admins.", admins.Count);
 				return admins.AsReadOnly();
 			}
 			catch (Exception ex)
 			{
+				_logger.LogError(ex, "Error retrieving all admins.");
 				throw new InvalidOperationException("An error occurred while retrieving all admins.", ex);
 			}
 		}
@@ -138,45 +149,35 @@ namespace Hotel_Booking_Infrastruters.Repository
 					throw new ArgumentNullException(nameof(adminUpdateDto), "Admin update data cannot be null.");
 				}
 
-				var adminsforUpdate = await _appDbContext.admins
-					.FirstOrDefaultAsync(x => x.Id == adminUpdateDto.Id, cancellationToken);
+				var admin = await _appDbContext.admins.FirstOrDefaultAsync(x => x.Id == adminUpdateDto.Id, cancellationToken);
 
-				if (adminsforUpdate == null)
+				if (admin == null)
 				{
+					_logger.LogWarning("Admin with ID {AdminId} not found for update.", adminUpdateDto.Id);
 					throw new ArgumentException($"Admin with ID {adminUpdateDto.Id} not found.");
 				}
 
-				adminsforUpdate.Name = adminUpdateDto.Name ?? adminsforUpdate.Name;
-				adminsforUpdate.LastName = adminUpdateDto.LastName ?? adminsforUpdate.LastName;
-				adminsforUpdate.PhoneNumber = adminUpdateDto.PhoneNumber ?? adminsforUpdate.PhoneNumber;
-				adminsforUpdate.CardId = adminUpdateDto.CardId ?? adminsforUpdate.CardId;
-				adminsforUpdate.City = adminUpdateDto.City ?? adminsforUpdate.City;
-				adminsforUpdate.DateOfBirth = adminUpdateDto.DateOfBirth ?? adminsforUpdate.DateOfBirth;
-				adminsforUpdate.Education = adminUpdateDto.Education ?? adminsforUpdate.Education;
-				adminsforUpdate.Email = adminUpdateDto.Email ?? adminsforUpdate.Email;
-				adminsforUpdate.Gender = adminUpdateDto.Gender ?? adminsforUpdate.Gender;
-				adminsforUpdate.Job = adminUpdateDto.Job ?? adminsforUpdate.Job;
-				adminsforUpdate.MaritalStatus = adminUpdateDto.MaritalStatus ?? adminsforUpdate.MaritalStatus;
-				
+				admin.Name = adminUpdateDto.Name ?? admin.Name;
+				admin.LastName = adminUpdateDto.LastName ?? admin.LastName;
+				admin.PhoneNumber = adminUpdateDto.PhoneNumber ?? admin.PhoneNumber;
+				admin.CardId = adminUpdateDto.CardId ?? admin.CardId;
+				admin.City = adminUpdateDto.City ?? admin.City;
+				admin.DateOfBirth = adminUpdateDto.DateOfBirth ?? admin.DateOfBirth;
+				admin.Education = adminUpdateDto.Education ?? admin.Education;
+				admin.Email = adminUpdateDto.Email ?? admin.Email;
+				admin.Gender = adminUpdateDto.Gender ?? admin.Gender;
+				admin.Job = adminUpdateDto.Job ?? admin.Job;
+				admin.MaritalStatus = adminUpdateDto.MaritalStatus ?? admin.MaritalStatus;
+
 				await _appDbContext.SaveChangesAsync(cancellationToken);
 
-				return adminsforUpdate;
-			}
-			catch (ArgumentNullException ex)
-			{
-				throw;
-			}
-			catch (ArgumentException ex)
-			{
-				throw;
-			}
-			catch (DbUpdateException ex)
-			{
-				throw new InvalidOperationException($"An error occurred while updating admin with ID {adminUpdateDto?.Id}.", ex);
+				_logger.LogInformation("Admin with ID {AdminId} updated successfully.", admin.Id);
+				return admin;
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidOperationException($"An unexpected error occurred while updating admin with ID {adminUpdateDto?.Id}.", ex);
+				_logger.LogError(ex, "Error updating admin with ID {AdminId}", adminUpdateDto?.Id);
+				throw new InvalidOperationException($"An error occurred while updating admin with ID {adminUpdateDto?.Id}.", ex);
 			}
 		}
 	}

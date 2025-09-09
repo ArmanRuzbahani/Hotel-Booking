@@ -10,15 +10,15 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 {
 	public interface IBookingRepository
 	{
-		Task<IReadOnlyCollection<Booking>> GetAllBookingsAsync(CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<BookingReadAdminDto>> GetAllBookingsAsync(CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<Booking?>> GetBookingsByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<BookingReadByHotelDto?>> GetBookingsByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<Booking?>> GetBookingsByHotelIdAsync(int hotelId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<BookingReadByHotelDto?>> GetBookingsByHotelIdAsync(int hotelId, CancellationToken cancellationToken);
 
-		Task<IReadOnlyCollection<Booking?>> GetBookingsByRoomIdAsync(int roomId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<BookingReadByHotelDto?>> GetBookingsByRoomIdAsync(int roomId, CancellationToken cancellationToken);
 
-		Task<Booking?> GetBookingByIdAsync(int bookingId, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<BookingReadByHotelDto?>> GetBookingByIdAsync(int bookingId, CancellationToken cancellationToken);
 
 		Task<Booking> CreateBookingAsync(BookingCreateDto bookingCreateDto, CancellationToken cancellationToken);
 

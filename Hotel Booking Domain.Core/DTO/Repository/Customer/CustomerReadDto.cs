@@ -25,5 +25,8 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Customer
 		public UserEducation? Education { get; set; }
 		public UserNationality? Nationality { get; set; }
 		public IranCity? CustomerCity { get; set; }
+		public UserRole Role { get; set; }
+		public bool IsEmailVerfied { get; set; }
+		public bool IsPhoneNumberVerfied { get; set; }
 	}
 }

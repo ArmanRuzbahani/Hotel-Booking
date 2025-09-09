@@ -17,6 +17,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Booking
 		public string CustomerName { get; set; }
 		public DateTime CheckInDate { get; set; }
 		public DateTime CheckOutDate { get; set; }
+		public DateTime CreatedDate { get; set; }
 		public int NumberOfGuests { get; set; }
 		public decimal TotalPrice { get; set; }
 		public int NumberOfNights { get; set; }

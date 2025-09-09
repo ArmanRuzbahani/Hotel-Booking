@@ -21,6 +21,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Customer
 		public UserGender? Gender { get; set; }
 		public UserEducation? Education { get; set; }
 		public UserNationality? Nationality { get; set; }
-		public int? CityId { get; set; }
+		public IranCity city { get; set; }
+		public UserRole Role { get; set; }
 	}
 }
