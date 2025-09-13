@@ -9,6 +9,7 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Room
 {
 	public class RoomUpdateDto
 	{
+		public int Id { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public RoomType RoomType { get; set; }
