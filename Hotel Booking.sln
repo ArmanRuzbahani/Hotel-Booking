@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.Hotel Booking Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel Booking APIs", "Hotel Booking APIs\Hotel Booking APIs.csproj", "{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PythonAi", "PythonAi", "{4E727729-69BA-4E8A-9998-319DDAF12417}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
