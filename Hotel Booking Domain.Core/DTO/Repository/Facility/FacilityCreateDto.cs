@@ -9,5 +9,6 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Facility
 	public class FacilityCreateDto
 	{
 		public string Name { get; set; }
+
 	}
 }

@@ -17,6 +17,6 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.Hotel
 		public string? CloseAt { get; set; }
 		public string? Picture { get; set; }
 		public IranCityForHotel IranCityForHotel { get; set; }
-		public int? Stars { get; set; }
+		public int Stars { get; set; } = 0;
 	}
 }

@@ -108,22 +108,125 @@ namespace Hotel_Booking_Infrastruters.Repository
 			}
 		}
 
-		public Task<IReadOnlyCollection<ChatConversationReadDto?>> GetAllTheConversations(CancellationToken cancellationToken)
+		public async Task<IReadOnlyCollection<ChatConversationReadDto?>> GetAllTheConversations(CancellationToken cancellationToken)
 		{
 			try
 			{
-				var 
+				var ChatForAdmin = await _dbcontext.chatConversations
+					.AsNoTracking()
+					.Select(c => new ChatConversationReadDto
+					{
+						Id = c.Id,
+						Title = c.Title,
+						StartedAt = c.StartedAt,
+						EndedAt = c.EndedAt,
+						ConversationData = c.ConversationData,
+						CustomerId = c.CustomerId
+					})
+					.ToListAsync(cancellationToken);
+
+				_logger.LogInformation("Retrieved {Count} chat conversations.", ChatForAdmin.Count);
+
+				return ChatForAdmin.AsReadOnly();
+			}
+			catch (DbUpdateException ex)
+			{
+				_logger.LogError(ex, "Database error occurred while fetching chat conversations.");
+				throw new InvalidOperationException("Database error occurred while fetching chat conversations.", ex);
+			}
+			catch (OperationCanceledException)
+			{
+				_logger.LogInformation("Fetching chat conversations was cancelled.");
+				throw;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Unexpected error occurred while fetching chat conversations.");
+				throw new InvalidOperationException("Unexpected error occurred while fetching chat conversations.", ex);
 			}
 		}
 
-		public Task<IReadOnlyCollection<ChatConversationReadDto?>> GetAllTheConversationsByCustomerId(int customerId, CancellationToken cancellationToken)
+
+		public async Task<IReadOnlyCollection<ChatConversationReadDto?>> GetAllTheConversationsByCustomerId(int customerId, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var customerChats = await _dbcontext.chatConversations
+					.AsNoTracking()
+					.Where(c => c.CustomerId == customerId)
+					.Select(c => new ChatConversationReadDto
+					{
+						Id = c.Id,
+						Title = c.Title,
+						StartedAt = c.StartedAt,
+						EndedAt = c.EndedAt,
+						ConversationData = c.ConversationData,
+						CustomerId = c.CustomerId
+					})
+					.ToListAsync(cancellationToken);
+
+				_logger.LogInformation("Retrieved {Count} chat conversations for CustomerId {CustomerId}.", customerChats.Count, customerId);
+
+				return customerChats.AsReadOnly();
+			}
+			catch (DbUpdateException ex)
+			{
+				_logger.LogError(ex, "Database error occurred while fetching chat conversations for CustomerId {CustomerId}.", customerId);
+				throw new InvalidOperationException("Database error occurred while fetching chat conversations.", ex);
+			}
+			catch (OperationCanceledException)
+			{
+				_logger.LogInformation("Fetching chat conversations for CustomerId {CustomerId} was cancelled.", customerId);
+				throw;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Unexpected error occurred while fetching chat conversations for CustomerId {CustomerId}.", customerId);
+				throw new InvalidOperationException("Unexpected error occurred while fetching chat conversations.", ex);
+			}
 		}
 
-		public Task<ChatConversation> UpdateChatConversation(ChatConversationUpdateDto chatConversationUpdateDto, CancellationToken cancellationToken)
+
+		public async Task<ChatConversation> UpdateChatConversation(ChatConversationUpdateDto chatConversationUpdateDto, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			if (chatConversationUpdateDto == null)
+				throw new ArgumentNullException(nameof(chatConversationUpdateDto));
+
+			try
+			{
+				var chat = await _dbcontext.chatConversations
+					.FirstOrDefaultAsync(c => c.Id == chatConversationUpdateDto.Id, cancellationToken);
+
+				if (chat == null)
+				{
+					_logger.LogWarning("ChatConversation with ID {ChatId} not found for update.", chatConversationUpdateDto.Id);
+					throw new KeyNotFoundException($"ChatConversation with ID {chatConversationUpdateDto.Id} not found.");
+				}
+
+				chat.Title = chatConversationUpdateDto.Title ?? chat.Title;
+	
+				await _dbcontext.SaveChangesAsync(cancellationToken);
+
+				_logger.LogInformation("ChatConversation with ID {ChatId} updated successfully.", chat.Id);
+
+				return chat;
+			}
+			catch (DbUpdateException ex)
+			{
+				_logger.LogError(ex, "Database error occurred while updating ChatConversation with ID {ChatId}", chatConversationUpdateDto.Id);
+				throw new InvalidOperationException("Database error occurred while updating the chat conversation.", ex);
+			}
+			catch (OperationCanceledException)
+			{
+				_logger.LogInformation("Update operation for ChatConversationId {ChatId} was cancelled.", chatConversationUpdateDto.Id);
+				throw;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Unexpected error occurred while updating ChatConversation with ID {ChatId}", chatConversationUpdateDto.Id);
+				throw new InvalidOperationException("Unexpected error occurred while updating the chat conversation.", ex);
+			}
 		}
+
 	}
 }

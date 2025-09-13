@@ -12,5 +12,6 @@ namespace Hotel_Booking_Domain.Core.DTO.Repository.HotelComments
 		public int Rating { get; set; }
 		public int HotelId { get; set; }
 		public int CustomerId { get; set; }
+		public DateTime CreatedAt { get; set; }
 	}
 }
