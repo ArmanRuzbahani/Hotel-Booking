@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel_Booking_Domain.Core.Entitys;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Entitys_Hotel.Models
@@ -42,5 +43,9 @@ namespace Entitys_Hotel.Models
 		public IranCity? City { get; set; }
 
 		public UserRole Role { get; set; }
+
+		public AppUser AppUser { get; set; }
+
+		public int AppUserId { get; set; }
 	}
 }

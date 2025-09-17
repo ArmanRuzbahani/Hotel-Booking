@@ -1,6 +1,8 @@
 ﻿using Entitys_Hotel.Models;
 using Hotel_Booking_Domain.Core.Entitys;
 using Hotel_Booking_Infrastruters.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Booking_Infrastruters.Common
 {
-	public class AppDbContext : DbContext
+	public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
