@@ -38,7 +38,7 @@ namespace Hotel_Booking_Infrastruters.Common
 			modelBuilder.Entity<Customer>().HasMany(c => c.Conversation).WithOne(c => c.Customer).HasForeignKey(c => c.CustomerId).OnDelete(DeleteBehavior.Cascade);
 			modelBuilder.ApplyConfiguration(new FoodConfiguration());
 			modelBuilder.ApplyConfiguration(new FacilityConfiguration());
-			modelBuilder.ApplyConfiguration(new AdminConfiguration());
+			//modelBuilder.ApplyConfiguration(new AdminConfiguration());
 			base.OnModelCreating(modelBuilder);
 		}
 		public DbSet<Address> addresses { get; set; }

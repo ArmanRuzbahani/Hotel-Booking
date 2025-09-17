@@ -13,18 +13,18 @@ namespace Hotel_Booking_Domain.Core.Entitys
 	{
 		public Customer Customer { get; set; }
 
-        public int CustomerId { get; set; }
+		
 
 
 
 		public Admin Admin { get; set; }
 
-		public int AdminId { get; set; }
+		
 
 
 
 		public HotelManager HotelManager { get; set; }
 
-		public int HotelManagerId { get; set; }
+		
 	}
 }
