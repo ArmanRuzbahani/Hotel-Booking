@@ -23,6 +23,7 @@ namespace Hotel_Booking_Infrastruters.Repository
 			_appdbcontext = appdbcontext;
 			_logger = logger;
 		}
+
 		public async Task<Hotel> CreateHotelAsync(HotelCreateDto hotelCreateDto, CancellationToken cancellationToken)
 		{
 			try
@@ -38,12 +39,9 @@ namespace Hotel_Booking_Infrastruters.Repository
 					iranCityForHotel = hotelCreateDto.IranCityForHotel,
 					Stars = hotelCreateDto.Stars ?? 0,
 					HotelManagerId = hotelCreateDto.SHotelManagerId,
-					
 				};
-
 				await _appdbcontext.hotels.AddAsync(hotel, cancellationToken);
 				await _appdbcontext.SaveChangesAsync(cancellationToken);
-
 				return hotel;
 			}
 			catch (Exception ex)
@@ -53,21 +51,16 @@ namespace Hotel_Booking_Infrastruters.Repository
 			}
 		}
 
-
-
 		public async Task<bool> DeleteHotelAsync(int id, CancellationToken cancellationToken)
 		{
 			try
 			{
 				var hotel = await _appdbcontext.hotels
 					.FirstOrDefaultAsync(h => h.Id == id, cancellationToken);
-
 				if (hotel == null)
 					return false;
-
 				_appdbcontext.hotels.Remove(hotel);
 				await _appdbcontext.SaveChangesAsync(cancellationToken);
-
 				return true;
 			}
 			catch (Exception ex)
@@ -84,7 +77,6 @@ namespace Hotel_Booking_Infrastruters.Repository
 				var hotels = await _appdbcontext.hotels
 					.AsNoTracking()
 					.ToListAsync(cancellationToken);
-
 				return hotels;
 			}
 			catch (Exception ex)
@@ -94,7 +86,6 @@ namespace Hotel_Booking_Infrastruters.Repository
 			}
 		}
 
-
 		public async Task<Hotel?> GetHotelByIdAsync(int hotelId, CancellationToken cancellationToken)
 		{
 			try
@@ -102,12 +93,93 @@ namespace Hotel_Booking_Infrastruters.Repository
 				var hotel = await _appdbcontext.hotels
 					.AsNoTracking()
 					.FirstOrDefaultAsync(h => h.Id == hotelId, cancellationToken);
-
 				return hotel;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Error occurred while retrieving hotel by ID");
+				throw;
+			}
+		}
+
+		// متد Search جدید - شبیه GetAllHotelsAsync
+		public async Task<IReadOnlyCollection<Hotel>> SearchHotelsAsync(string searchTerm, CancellationToken cancellationToken)
+		{
+			try
+			{
+				// اگر searchTerm خالی باشه، همه هتل‌ها رو برگردون
+				if (string.IsNullOrWhiteSpace(searchTerm))
+				{
+					return await GetAllHotelsAsync(cancellationToken);
+				}
+
+				// تبدیل به حروف کوچک برای جستجوی بهتر
+				var searchTermLower = searchTerm.ToLower().Trim();
+
+				var hotels = await _appdbcontext.hotels
+					.AsNoTracking()
+					.Where(h =>
+						(h.Name != null && h.Name.ToLower().Contains(searchTermLower)) ||
+						(h.Description != null && h.Description.ToLower().Contains(searchTermLower)) ||
+						(h.ShortDescription != null && h.ShortDescription.ToLower().Contains(searchTermLower)) ||
+						h.iranCityForHotel.ToString().ToLower().Contains(searchTermLower))
+					.OrderByDescending(h => h.Id)
+					.ToListAsync(cancellationToken);
+
+				return hotels;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error occurred while searching hotels with term: {SearchTerm}", searchTerm);
+				throw;
+			}
+		}
+
+		
+		public async Task<IReadOnlyCollection<Hotel>> SearchHotelsAdvancedAsync(
+			string searchTerm,
+			int? minStars = null,
+			int? maxStars = null,
+			int pageSize = 50,
+			CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				var query = _appdbcontext.hotels.AsNoTracking();
+
+				
+				if (!string.IsNullOrWhiteSpace(searchTerm))
+				{
+					var searchTermLower = searchTerm.ToLower().Trim();
+					query = query.Where(h =>
+						(h.Name != null && h.Name.ToLower().Contains(searchTermLower)) ||
+						(h.Description != null && h.Description.ToLower().Contains(searchTermLower)) ||
+						(h.ShortDescription != null && h.ShortDescription.ToLower().Contains(searchTermLower)) ||
+						h.iranCityForHotel.ToString().ToLower().Contains(searchTermLower));
+				}
+
+				
+				if (minStars.HasValue)
+				{
+					query = query.Where(h => h.Stars >= minStars.Value);
+				}
+
+				if (maxStars.HasValue)
+				{
+					query = query.Where(h => h.Stars <= maxStars.Value);
+				}
+
+				var hotels = await query
+					.OrderByDescending(h => h.Stars) // بر اساس ستاره مرتب کن
+					.ThenByDescending(h => h.Id) // سپس جدیدترین‌ها
+					.Take(pageSize) // محدود کردن تعداد نتایج
+					.ToListAsync(cancellationToken);
+
+				return hotels;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error occurred while advanced searching hotels with term: {SearchTerm}", searchTerm);
 				throw;
 			}
 		}
@@ -118,7 +190,6 @@ namespace Hotel_Booking_Infrastruters.Repository
 			{
 				var hotel = await _appdbcontext.hotels
 					.FirstOrDefaultAsync(h => h.Id == hotelUpdateDto.Id, cancellationToken);
-
 				if (hotel == null)
 					return null;
 
@@ -130,11 +201,9 @@ namespace Hotel_Booking_Infrastruters.Repository
 				hotel.Picture = hotelUpdateDto.Picture;
 				hotel.iranCityForHotel = hotelUpdateDto.IranCityForHotel;
 				hotel.Stars = hotelUpdateDto.Stars;
-				
 
 				_appdbcontext.hotels.Update(hotel);
 				await _appdbcontext.SaveChangesAsync(cancellationToken);
-
 				return hotel;
 			}
 			catch (Exception ex)

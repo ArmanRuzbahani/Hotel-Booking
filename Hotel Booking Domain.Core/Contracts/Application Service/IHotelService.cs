@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel_Booking_Domain.Core.Contracts.Repository
+namespace Hotel_Booking_Domain.Core.Contracts.Application_Service
 {
-	public interface IHotelRepository
+	public interface IHotelService
 	{
 		Task<IReadOnlyCollection<Hotel>> GetAllHotelsAsync(CancellationToken cancellationToken);
 
@@ -21,7 +21,6 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 		Task<bool> DeleteHotelAsync(int id, CancellationToken cancellationToken);
 
 		Task<IReadOnlyCollection<Hotel>> SearchHotelsAsync(string searchTerm, CancellationToken cancellationToken);
-
 		Task<IReadOnlyCollection<Hotel>> SearchHotelsAdvancedAsync(
 			string searchTerm,
 			int? minStars = null,

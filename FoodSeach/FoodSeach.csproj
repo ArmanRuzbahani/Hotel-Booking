@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleApp2\ConsoleApp2.csproj" />
+    <ProjectReference Include="..\Hotel Booking APIs\Hotel Booking APIs.csproj" />
+    <ProjectReference Include="..\Hotel Booking Application Service\2.Hotel Booking Application Service.Core.csproj" />
+    <ProjectReference Include="..\Hotel Booking Domain.Core\1.Hotel Booking Domain.Core.csproj" />
+    <ProjectReference Include="..\Hotel Booking Infrastruters\HotelBookingInfrastruters.csproj" />
+    <ProjectReference Include="..\Hotel Booking\Hotel Booking.csproj" />
+    <ProjectReference Include="..\XUNIT TEST BOOKING\XUNIT TEST BOOKING.csproj" />
+  </ItemGroup>
+
+</Project>

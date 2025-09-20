@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel_Booking_Domain.Core.Contracts.Repository
+namespace Hotel_Booking_Domain.Core.Contracts.Application_Service
 {
-	public interface IFoodRepository
+	public interface IFoodService
 	{
 		Task<IReadOnlyCollection<Food>> GetAllFoodsAsync(CancellationToken cancellationToken);
 
@@ -20,8 +20,8 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 
 		Task<bool> DeleteFoodAsync(int id, CancellationToken cancellationToken);
 
-		Task<IEnumerable<Food>> SearchFoodsAsync(string searchTerm, CancellationToken cancellationToken);
+		Task<IReadOnlyCollection<Food>> SearchFoodsAsync(string searchTerm, CancellationToken cancellationToken);
 
-		Task<IEnumerable<Food>> SearchFoodsAdvancedAsync(string searchTerm, int? hotelId = null, int pageSize = 50, CancellationToken cancellationToken = default);
+		Task<IReadOnlyCollection<Food>> SearchFoodsAdvancedAsync(string searchTerm, int? hotelId = null, int pageSize = 50, CancellationToken cancellationToken = default);
 	}
 }

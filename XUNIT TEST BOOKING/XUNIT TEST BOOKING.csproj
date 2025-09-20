@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Hotel Booking Application Service\2.Hotel Booking Application Service.Core.csproj" />
     <ProjectReference Include="..\Hotel Booking Domain.Core\1.Hotel Booking Domain.Core.csproj" />
+    <ProjectReference Include="..\Hotel Booking Infrastruters\HotelBookingInfrastruters.csproj" />
   </ItemGroup>
 
   <ItemGroup>

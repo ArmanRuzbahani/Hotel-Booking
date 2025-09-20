@@ -132,5 +132,75 @@ namespace Hotel_Booking_Infrastruters.Repository
 				throw;
 			}
 		}
+		public async Task<IEnumerable<Food>> SearchFoodsAsync(string searchTerm, CancellationToken cancellationToken)
+		{
+			try
+			{
+				// If the search term is empty, return all food items.
+				if (string.IsNullOrWhiteSpace(searchTerm))
+				{
+					return await GetAllFoodsAsync(cancellationToken);
+				}
+
+				var searchTermLower = searchTerm.ToLower().Trim();
+
+				var foods = await _appDbContext.food
+					.AsNoTracking()
+					.Where(f =>
+						(f.Name != null && f.Name.ToLower().Contains(searchTermLower)) ||
+						(f.Description != null && f.Description.ToLower().Contains(searchTermLower)))
+					.OrderByDescending(f => f.Id) // Show newest first
+					.ToListAsync(cancellationToken);
+
+				return foods;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error occurred while searching for food with term: {SearchTerm}", searchTerm);
+				throw;
+			}
+		}
+
+
+		public async Task<IEnumerable<Food>> SearchFoodsAdvancedAsync(
+	string searchTerm,
+	int? hotelId = null,
+	int pageSize = 50,
+	CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				var query = _appDbContext.food.AsNoTracking();
+
+				// Apply search term filter if provided (this part is unchanged)
+				if (!string.IsNullOrWhiteSpace(searchTerm))
+				{
+					var searchTermLower = searchTerm.ToLower().Trim();
+					query = query.Where(f =>
+						(f.Name != null && f.Name.ToLower().Contains(searchTermLower)) ||
+						(f.Description != null && f.Description.ToLower().Contains(searchTermLower)));
+				}
+
+				// ** THIS IS THE CORRECTED LOGIC FOR A MANY-TO-MANY RELATIONSHIP **
+				if (hotelId.HasValue)
+				{
+					// Filter foods where *any* of their associated HotelFood entries match the hotelId.
+					query = query.Where(f => f.HotelFoods.Any(hf => hf.HotelId == hotelId.Value));
+				}
+
+				var foods = await query
+					.OrderByDescending(f => f.Id) // Order by newest
+					.Take(pageSize)              // Limit the number of results
+					.ToListAsync(cancellationToken);
+
+				return foods;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error occurred during advanced search for food with term: {SearchTerm}", searchTerm);
+				throw;
+			}
+		}
 	}
 }
+
