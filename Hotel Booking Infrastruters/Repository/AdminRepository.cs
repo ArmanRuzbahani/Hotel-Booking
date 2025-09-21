@@ -22,7 +22,7 @@ namespace Hotel_Booking_Infrastruters.Repository
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		public async Task<bool> DeleteAdminAsync(int id, CancellationToken cancellationToken = default)
+		public async Task<bool> DeleteAdminAsync(int id, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -57,7 +57,7 @@ namespace Hotel_Booking_Infrastruters.Repository
 			}
 		}
 
-		public async Task<AdminReadDto?> GetAdminByIdAsync(int id, CancellationToken cancellationToken = default)
+		public async Task<AdminReadDto?> GetAdminByIdAsync(int id, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -101,7 +101,7 @@ namespace Hotel_Booking_Infrastruters.Repository
 			}
 		}
 
-		public async Task<IReadOnlyCollection<AdminReadDto>> GetAllAdminsAsync(CancellationToken cancellationToken = default)
+		public async Task<IReadOnlyCollection<AdminReadDto>> GetAllAdminsAsync(CancellationToken cancellationToken)
 		{
 			try
 			{
