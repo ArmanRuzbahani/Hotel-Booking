@@ -5,8 +5,6 @@ using Hotel_Booking_Domain.Core.DTO.Repository.Hotel;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Hotel_Booking_Application_Service.Services
@@ -26,19 +24,25 @@ namespace Hotel_Booking_Application_Service.Services
 		{
 			try
 			{
-				_logger.LogInformation("Creating hotel with name: {HotelName}", hotelCreateDto.Name);
+				if (hotelCreateDto == null)
+				{
+					_logger.LogError("ایجاد هتل ناموفق بود: داده ورودی خالی است");
+					throw new ArgumentNullException(nameof(hotelCreateDto));
+				}
 
-				// اعتبارسنجی
-				ValidateHotelCreateDto(hotelCreateDto);
+				var hotel = await _hotelRepository.CreateHotelAsync(hotelCreateDto, cancellationToken);
+				if (hotel == null)
+				{
+					_logger.LogError("ایجاد هتل ناموفق بود: خطا در ذخیره‌سازی");
+					throw new InvalidOperationException("خطا در ایجاد هتل");
+				}
 
-				var result = await _hotelRepository.CreateHotelAsync(hotelCreateDto, cancellationToken);
-
-				_logger.LogInformation("Hotel created successfully with ID: {HotelId}", result.Id);
-				return result;
+				_logger.LogInformation("هتل با موفقیت ایجاد شد: {HotelName}", hotel.Name);
+				return hotel;
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Error occurred while creating hotel in service layer");
+				_logger.LogError(ex, "خطا در ایجاد هتل با نام: {HotelName}", hotelCreateDto.Name);
 				throw;
 			}
 		}
@@ -47,30 +51,25 @@ namespace Hotel_Booking_Application_Service.Services
 		{
 			try
 			{
-				_logger.LogInformation("Deleting hotel with ID: {HotelId}", id);
-
 				if (id <= 0)
 				{
-					_logger.LogWarning("Invalid hotel ID provided: {HotelId}", id);
-					return false;
+					_logger.LogError("حذف هتل ناموفق بود: شناسه نامعتبر است");
+					throw new ArgumentException("شناسه هتل نامعتبر است");
 				}
 
 				var result = await _hotelRepository.DeleteHotelAsync(id, cancellationToken);
-
-				if (result)
+				if (!result)
 				{
-					_logger.LogInformation("Hotel deleted successfully with ID: {HotelId}", id);
-				}
-				else
-				{
-					_logger.LogWarning("Hotel not found for deletion with ID: {HotelId}", id);
+					_logger.LogWarning("هتل با شناسه {HotelId} یافت نشد", id);
+					return false;
 				}
 
-				return result;
+				_logger.LogInformation("هتل با شناسه {HotelId} با موفقیت حذف شد", id);
+				return true;
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Error occurred while deleting hotel with ID: {HotelId}", id);
+				_logger.LogError(ex, "خطا در حذف هتل با شناسه: {HotelId}", id);
 				throw;
 			}
 		}
@@ -79,16 +78,19 @@ namespace Hotel_Booking_Application_Service.Services
 		{
 			try
 			{
-				_logger.LogInformation("Retrieving all hotels");
+				var hotels = await _hotelRepository.GetAllHotelsAsync(cancellationToken);
+				if (hotels == null || hotels.Count == 0)
+				{
+					_logger.LogWarning("هیچ هتلی یافت نشد");
+					return new List<Hotel>();
+				}
 
-				var result = await _hotelRepository.GetAllHotelsAsync(cancellationToken);
-
-				_logger.LogInformation("Retrieved {HotelCount} hotels", result.Count);
-				return result;
+				_logger.LogInformation("تعداد {HotelCount} هتل با موفقیت بازیابی شد", hotels.Count);
+				return hotels;
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Error occurred while retrieving all hotels in service layer");
+				_logger.LogError(ex, "خطا در بازیابی لیست هتل‌ها");
 				throw;
 			}
 		}
@@ -97,57 +99,25 @@ namespace Hotel_Booking_Application_Service.Services
 		{
 			try
 			{
-				_logger.LogInformation("Retrieving hotel with ID: {HotelId}", hotelId);
-
 				if (hotelId <= 0)
 				{
-					_logger.LogWarning("Invalid hotel ID provided: {HotelId}", hotelId);
+					_logger.LogError("بازیابی هتل ناموفق بود: شناسه نامعتبر است");
+					throw new ArgumentException("شناسه هتل نامعتبر است");
+				}
+
+				var hotel = await _hotelRepository.GetHotelByIdAsync(hotelId, cancellationToken);
+				if (hotel == null)
+				{
+					_logger.LogWarning("هتل با شناسه {HotelId} یافت نشد", hotelId);
 					return null;
 				}
 
-				var result = await _hotelRepository.GetHotelByIdAsync(hotelId, cancellationToken);
-
-				if (result == null)
-				{
-					_logger.LogWarning("Hotel not found with ID: {HotelId}", hotelId);
-				}
-				else
-				{
-					_logger.LogInformation("Hotel retrieved successfully with ID: {HotelId}", hotelId);
-				}
-
-				return result;
+				_logger.LogInformation("هتل با شناسه {HotelId} با موفقیت بازیابی شد", hotelId);
+				return hotel;
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Error occurred while retrieving hotel with ID: {HotelId}", hotelId);
-				throw;
-			}
-		}
-
-		public async Task<Hotel> UpdateHotelAsync(HotelUpdateDto hotelUpdateDto, CancellationToken cancellationToken)
-		{
-			try
-			{
-				_logger.LogInformation("Updating hotel with ID: {HotelId}", hotelUpdateDto.Id);
-
-				// اعتبارسنجی
-				ValidateHotelUpdateDto(hotelUpdateDto);
-
-				var result = await _hotelRepository.UpdateHotelAsync(hotelUpdateDto, cancellationToken);
-
-				if (result == null)
-				{
-					_logger.LogWarning("Hotel not found for update with ID: {HotelId}", hotelUpdateDto.Id);
-					return null;
-				}
-
-				_logger.LogInformation("Hotel updated successfully with ID: {HotelId}", result.Id);
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Error occurred while updating hotel with ID: {HotelId}", hotelUpdateDto.Id);
+				_logger.LogError(ex, "خطا در بازیابی هتل با شناسه: {HotelId}", hotelId);
 				throw;
 			}
 		}
@@ -156,125 +126,92 @@ namespace Hotel_Booking_Application_Service.Services
 		{
 			try
 			{
-				_logger.LogInformation("Searching hotels with term: {SearchTerm}", searchTerm);
+				if (string.IsNullOrWhiteSpace(searchTerm))
+				{
+					_logger.LogWarning("جستجوی هتل با عبارت خالی: تمام هتل‌ها بازیابی می‌شوند");
+				}
 
-				var result = await _hotelRepository.SearchHotelsAsync(searchTerm, cancellationToken);
+				var hotels = await _hotelRepository.SearchHotelsAsync(searchTerm, cancellationToken);
+				if (hotels == null || hotels.Count == 0)
+				{
+					_logger.LogWarning("هیچ هتلی برای عبارت جستجو {SearchTerm} یافت نشد", searchTerm);
+					return new List<Hotel>();
+				}
 
-				_logger.LogInformation("Found {HotelCount} hotels for search term: {SearchTerm}", result.Count, searchTerm);
-				return result;
+				_logger.LogInformation("تعداد {HotelCount} هتل برای عبارت جستجو {SearchTerm} یافت شد", hotels.Count, searchTerm);
+				return hotels;
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Error occurred while searching hotels with term: {SearchTerm}", searchTerm);
+				_logger.LogError(ex, "خطا در جستجوی هتل‌ها با عبارت: {SearchTerm}", searchTerm);
 				throw;
 			}
 		}
 
-		public async Task<IReadOnlyCollection<Hotel>> SearchHotelsAdvancedAsync(
-			string searchTerm,
-			int? minStars = null,
-			int? maxStars = null,
-			int pageSize = 50,
-			CancellationToken cancellationToken = default)
+		public async Task<IReadOnlyCollection<Hotel>> SearchHotelsAdvancedAsync(string searchTerm, int? minStars = null, int? maxStars = null, int pageSize = 50, CancellationToken cancellationToken = default)
 		{
 			try
 			{
-				_logger.LogInformation("Advanced search - Term: {SearchTerm}, MinStars: {MinStars}, MaxStars: {MaxStars}, PageSize: {PageSize}",
-					searchTerm, minStars, maxStars, pageSize);
-
-				// اعتبارسنجی پارامترها
-				if (pageSize <= 0 || pageSize > 100)
-				{
-					pageSize = 50;
-					_logger.LogWarning("Invalid page size adjusted to default: 50");
-				}
-
 				if (minStars.HasValue && minStars.Value < 0)
 				{
-					minStars = 0;
-					_logger.LogWarning("Invalid minStars adjusted to 0");
+					_logger.LogError("جستجوی پیشرفته ناموفق بود: حداقل ستاره نامعتبر است");
+					throw new ArgumentException("حداقل ستاره نامعتبر است");
 				}
 
 				if (maxStars.HasValue && maxStars.Value < 0)
 				{
-					maxStars = null;
-					_logger.LogWarning("Invalid maxStars set to null");
+					_logger.LogError("جستجوی پیشرفته ناموفق بود: حداکثر ستاره نامعتبر است");
+					throw new ArgumentException("حداکثر ستاره نامعتبر است");
 				}
 
-				if (minStars.HasValue && maxStars.HasValue && minStars > maxStars)
+				if (pageSize <= 0)
 				{
-					var temp = minStars;
-					minStars = maxStars;
-					maxStars = temp;
-					_logger.LogWarning("MinStars and MaxStars swapped due to invalid range");
+					_logger.LogError("جستجوی پیشرفته ناموفق بود: اندازه صفحه نامعتبر است");
+					throw new ArgumentException("اندازه صفحه نامعتبر است");
 				}
 
-				var result = await _hotelRepository.SearchHotelsAdvancedAsync(
-					searchTerm, minStars, maxStars, pageSize, cancellationToken);
+				var hotels = await _hotelRepository.SearchHotelsAdvancedAsync(searchTerm, minStars, maxStars, pageSize, cancellationToken);
+				if (hotels == null || hotels.Count == 0)
+				{
+					_logger.LogWarning("هیچ هتلی برای جستجوی پیشرفته با عبارت {SearchTerm} یافت نشد", searchTerm);
+					return new List<Hotel>();
+				}
 
-				_logger.LogInformation("Advanced search completed - Found {HotelCount} hotels", result.Count);
-				return result;
+				_logger.LogInformation("تعداد {HotelCount} هتل برای جستجوی پیشرفته با عبارت {SearchTerm} یافت شد", hotels.Count, searchTerm);
+				return hotels;
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Error occurred during advanced hotel search");
+				_logger.LogError(ex, "خطا در جستجوی پیشرفته هتل‌ها با عبارت: {SearchTerm}", searchTerm);
 				throw;
 			}
 		}
 
-		#region Private Validation Methods
-
-		private void ValidateHotelCreateDto(HotelCreateDto hotelCreateDto)
+		public async Task<Hotel> UpdateHotelAsync(HotelUpdateDto hotelUpdateDto, CancellationToken cancellationToken)
 		{
-			if (hotelCreateDto == null)
+			try
 			{
-				throw new ArgumentNullException(nameof(hotelCreateDto), "Hotel create data cannot be null");
-			}
+				if (hotelUpdateDto == null || hotelUpdateDto.Id <= 0)
+				{
+					_logger.LogError("به‌روزرسانی هتل ناموفق بود: داده ورودی یا شناسه نامعتبر است");
+					throw new ArgumentException("داده ورودی یا شناسه نامعتبر است");
+				}
 
-			if (string.IsNullOrWhiteSpace(hotelCreateDto.Name))
-			{
-				throw new ArgumentException("Hotel name is required", nameof(hotelCreateDto.Name));
-			}
+				var hotel = await _hotelRepository.UpdateHotelAsync(hotelUpdateDto, cancellationToken);
+				if (hotel == null)
+				{
+					_logger.LogWarning("هتل با شناسه {HotelId} برای به‌روزرسانی یافت نشد", hotelUpdateDto.Id);
+					throw new InvalidOperationException("هتل یافت نشد");
+				}
 
-			if (hotelCreateDto.Name.Length > 200)
-			{
-				throw new ArgumentException("Hotel name cannot exceed 200 characters", nameof(hotelCreateDto.Name));
+				_logger.LogInformation("هتل با شناسه {HotelId} با موفقیت به‌روزرسانی شد", hotelUpdateDto.Id);
+				return hotel;
 			}
-
-			if (hotelCreateDto.Stars.HasValue && (hotelCreateDto.Stars.Value < 0 || hotelCreateDto.Stars.Value > 5))
+			catch (Exception ex)
 			{
-				throw new ArgumentException("Hotel stars must be between 0 and 5", nameof(hotelCreateDto.Stars));
+				_logger.LogError(ex, "خطا در به‌روزرسانی هتل با شناسه: {HotelId}", hotelUpdateDto.Id);
+				throw;
 			}
 		}
-
-		private void ValidateHotelUpdateDto(HotelUpdateDto hotelUpdateDto)
-		{
-			if (hotelUpdateDto == null)
-			{
-				throw new ArgumentNullException(nameof(hotelUpdateDto), "Hotel update data cannot be null");
-			}
-
-			if (hotelUpdateDto.Id <= 0)
-			{
-				throw new ArgumentException("Valid hotel ID is required", nameof(hotelUpdateDto.Id));
-			}
-
-			if (string.IsNullOrWhiteSpace(hotelUpdateDto.Name))
-			{
-				throw new ArgumentException("Hotel name is required", nameof(hotelUpdateDto.Name));
-			}
-
-			if (hotelUpdateDto.Name.Length > 200)
-			{
-				throw new ArgumentException("Hotel name cannot exceed 200 characters", nameof(hotelUpdateDto.Name));
-			}
-
-			if (hotelUpdateDto.Stars < 0 || hotelUpdateDto.Stars > 5)
-			{
-				throw new ArgumentException("Hotel stars must be between 0 and 5", nameof(hotelUpdateDto.Stars));
-			}
-		}
-
-		#endregion
 	}
 }
