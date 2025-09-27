@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XUnit", "XUnit", "{09698897
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.Hotel Booking Application Service.Core", "Hotel Booking Application Service\2.Hotel Booking Application Service.Core.csproj", "{457FBDE3-EE8B-4D49-8769-DAD4959B1B6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel Booking APIs", "Hotel Booking APIs\Hotel Booking APIs.csproj", "{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web API Controller", "Hotel Booking APIs\Web API Controller.csproj", "{CFE09385-C9DA-44E3-89EF-8D98FF8CE9D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel_Booking.Application.Tests", "XUNIT TEST BOOKING\Hotel_Booking.Application.Tests.csproj", "{8B8D8428-969E-40DD-9240-6C0041FA3C35}"
 EndProject
