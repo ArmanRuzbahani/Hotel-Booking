@@ -17,6 +17,8 @@ namespace Entitys_Hotel.Models
 		
 		public int Rating { get; set; }
 
+		public bool IsCheckingHotelManager { get; set; } = false;
+
 		
 		[ForeignKey("Hotel")] 
 		public int HotelId { get; set; }

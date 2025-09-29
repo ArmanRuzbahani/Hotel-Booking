@@ -31,6 +31,19 @@ namespace Hotel_Booking_Application_Service.Services
 			_logger = logger;
 		}
 
+		public async Task<bool> CommentManagment(int id, CancellationToken cancellationToken)
+		{
+			if (id <= 0)
+			{
+				_logger.LogWarning("Invalid CommentId: {CommentId}", id);
+				return false;
+			}
+
+			var result = await _commentRepository.CommentManagment(id, cancellationToken);
+			return result;
+		}
+
+
 		public async Task<HotelComments> CreateHotelCommentAsync(HotelCommentsCreateDto hotelCommentCreateDto, CancellationToken cancellationToken)
 		{
 			try

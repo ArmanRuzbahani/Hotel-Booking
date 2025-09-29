@@ -23,6 +23,39 @@ namespace Hotel_Booking_Infrastruters.Repository
 			_logger = logger;
 		}
 
+
+
+		public async Task<bool> CommentManagment(int id, CancellationToken cancellationToken)
+		{
+			try
+			{
+				var comment = await _appDbContext.hotelComments
+					.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+
+				if (comment == null)
+					return false;
+
+				if (comment.IsCheckingHotelManager)
+				{
+					_logger.LogInformation("کامنت با Id={Id} قبلاً تأیید شده بود", id);
+					return false;
+				}
+
+				comment.IsCheckingHotelManager = true;
+
+				await _appDbContext.SaveChangesAsync(cancellationToken);
+
+				_logger.LogInformation("کامنت با Id={Id} توسط مدیر تأیید شد", id);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "خطا در تأیید کردن کامنت با Id={Id}", id);
+				return false;
+			}
+		}
+
+
 		public async Task<HotelComments> CreateHotelCommentAsync(HotelCommentsCreateDto hotelCommentCreateDto, CancellationToken cancellationToken)
 		{
 			try

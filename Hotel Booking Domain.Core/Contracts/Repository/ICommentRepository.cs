@@ -22,5 +22,7 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 		Task<HotelComments> UpdateCommentAsync(HotelCommentsUpdateDto hotelCommentUpdateDto, CancellationToken cancellationToken);
 
 		Task<bool> DeleteCommentAsync(int id, CancellationToken cancellationToken);
+
+		Task<bool> CommentManagment(int id, CancellationToken cancellationToken);
 	}
 }

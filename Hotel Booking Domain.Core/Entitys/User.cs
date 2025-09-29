@@ -14,8 +14,6 @@ namespace Entitys_Hotel.Models
 
 		public string? Email { get; set; }
 
-		public bool IsEmailVerfied { get; set; } = false;
-
 		public DateTime DateOfBirth { get; set; }
 
 		public int? Age => (int)((DateTime.Now - DateOfBirth).TotalDays / 365.25);
