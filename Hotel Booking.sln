@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel_Booking.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel_Booking.Api.Tests", "Hotel_Booking.Api.Tests\Hotel_Booking.Api.Tests.csproj", "{4C1CACB5-50F9-49D0-A2FD-BBE36489C305}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TESt", "TESt", "{6ED35821-1B69-412C-9B0A-7D079273FAB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp3", "ConsoleApp3\ConsoleApp3.csproj", "{EDCB7C37-A57A-4C76-9BBC-71EC200BF60A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,10 @@ Global
 		{4C1CACB5-50F9-49D0-A2FD-BBE36489C305}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C1CACB5-50F9-49D0-A2FD-BBE36489C305}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C1CACB5-50F9-49D0-A2FD-BBE36489C305}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDCB7C37-A57A-4C76-9BBC-71EC200BF60A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDCB7C37-A57A-4C76-9BBC-71EC200BF60A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDCB7C37-A57A-4C76-9BBC-71EC200BF60A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDCB7C37-A57A-4C76-9BBC-71EC200BF60A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +104,7 @@ Global
 		{1331DD35-ED4B-4865-A904-109E73B5AF03} = {A7F106BB-78C1-44AC-A7B8-13B0257111E9}
 		{8DAAEDD7-8272-4ADF-BDB5-32F7F52B0A9C} = {09698897-AC12-4BF8-A124-D4E761FC8D84}
 		{4C1CACB5-50F9-49D0-A2FD-BBE36489C305} = {09698897-AC12-4BF8-A124-D4E761FC8D84}
+		{EDCB7C37-A57A-4C76-9BBC-71EC200BF60A} = {6ED35821-1B69-412C-9B0A-7D079273FAB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {470D158A-7642-414C-B5ED-8D0F0D0A10D5}
