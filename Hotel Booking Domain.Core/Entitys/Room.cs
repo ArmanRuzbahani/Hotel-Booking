@@ -16,7 +16,7 @@ namespace Entitys_Hotel.Models
 
 		public int HotelId { get; set; }
 
-		public bool IsEmpty { get; set; }
+		public bool IsEmpty { get; set; } = true;
 
 		public decimal PricePerNight { get; set; }
 

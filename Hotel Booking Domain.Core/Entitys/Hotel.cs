@@ -43,6 +43,9 @@ namespace Entitys_Hotel.Models
 		public List<Facility> Facilities { get; set; }
 
 		public List<HotelRules> HotelRules { get; set; }
+
+		public hotelInsurances? hotelInsurances { get; set; } = new hotelInsurances();
+
 	}
 
 }

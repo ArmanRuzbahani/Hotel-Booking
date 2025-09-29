@@ -35,7 +35,9 @@ namespace Hotel_Booking_Infrastruters.Common
 			modelBuilder.Entity<HotelFood>().HasKey(c => c.Id);
 			modelBuilder.Entity<HotelFood>().HasOne(c => c.Hotel).WithMany(c => c.hotelFoods).HasForeignKey(c => c.HotelId).OnDelete(DeleteBehavior.NoAction);
 			modelBuilder.Entity<HotelFood>().HasOne(c => c.Food).WithMany(c => c.HotelFoods).HasForeignKey(c => c.FoodId).OnDelete(DeleteBehavior.NoAction);
-			modelBuilder.Entity<Customer>().HasMany(c => c.Conversation).WithOne(c => c.Customer).HasForeignKey(c => c.CustomerId).OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<Customer>().HasMany(c => c.Conversation).WithOne(c => c.Customer).HasForeignKey(c => c.CustomerId).OnDelete(DeleteBehavior.NoAction);
+			modelBuilder.Entity<Hotel>().HasOne(h => h.hotelInsurances).WithOne(i => i.hotel).HasForeignKey<hotelInsurances>(i => i.Id).OnDelete(DeleteBehavior.Cascade);
+
 			modelBuilder.ApplyConfiguration(new FoodConfiguration());
 			modelBuilder.ApplyConfiguration(new FacilityConfiguration());
 			//modelBuilder.ApplyConfiguration(new AdminConfiguration());
