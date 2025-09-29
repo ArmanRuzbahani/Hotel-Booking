@@ -19,5 +19,7 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 		Task<Customer> UpdateCustomer(CustomerUpdateDto customerUpdateDto ,CancellationToken cancellationToken);
 
 		Task<bool> DeleteCustomer(int Id,CancellationToken cancellationToken);
+
+		Task<bool> PhonNumberVerfiedManagement(int UserId, CancellationToken cancellationToken);
 	}
 }

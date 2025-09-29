@@ -47,7 +47,6 @@ namespace Hotel_Booking_Infrastruters.Repository
 					City = customerCreateDto.city,
 					Role = customerCreateDto.Role,
 					IsActive = true,
-					IsEmailVerfied = false,
 					IsPhoneNumberVerfied = false
 				};
 
@@ -126,7 +125,6 @@ namespace Hotel_Booking_Infrastruters.Repository
 						CustomerCity = c.City,
 						Role = c.Role,
 						IsActive = c.IsActive,
-						IsEmailVerfied = c.IsEmailVerfied,
 						IsPhoneNumberVerfied = c.IsPhoneNumberVerfied,
 						UserCreateAt = c.UserCreateAt
 					})
@@ -181,7 +179,6 @@ namespace Hotel_Booking_Infrastruters.Repository
 						CustomerCity = c.City,
 						Role = c.Role,
 						IsActive = c.IsActive,
-						IsEmailVerfied = c.IsEmailVerfied,
 						IsPhoneNumberVerfied = c.IsPhoneNumberVerfied,
 						UserCreateAt = c.UserCreateAt
 					})
@@ -209,6 +206,54 @@ namespace Hotel_Booking_Infrastruters.Repository
 				throw new Exception("An unexpected error occurred while fetching the customer profile.", ex);
 			}
 		}
+
+		public async Task<bool> PhonNumberVerfiedManagement(int UserId, CancellationToken cancellationToken)
+		{
+			try
+			{
+				if (UserId <= 0)
+				{
+					_logger.LogWarning("Invalid userId: {UserId}", UserId);
+					throw new ArgumentException("User does not exist", nameof(UserId));
+				}
+
+				var result = await _appDbContext.customers
+					.FirstOrDefaultAsync(c => c.Id == UserId, cancellationToken);
+
+				if (result == null)
+				{
+					_logger.LogWarning("Customer not found with userId: {UserId}", UserId);
+					throw new KeyNotFoundException($"Customer with userId {UserId} was not found.");
+				}
+
+				result.IsPhoneNumberVerfied = true;
+
+				await _appDbContext.SaveChangesAsync(cancellationToken);
+
+				_logger.LogInformation("Phone number verified successfully for userId: {UserId}", UserId);
+
+				return true;
+			}
+			catch (ArgumentException ex)
+			{
+				_logger.LogError(ex, "Invalid argument in PhoneNumberVerifiedManagement");
+				throw; 
+			}
+			catch (KeyNotFoundException ex)
+			{
+				_logger.LogError(ex, "User not found in PhoneNumberVerifiedManagement");
+				throw; 
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Unexpected error occurred while verifying phone number for userId: {UserId}", UserId);
+				return false;
+			}
+		}
+
+
+
+
 
 
 		public async Task<Customer> UpdateCustomer(CustomerUpdateDto customerUpdateDto, CancellationToken cancellationToken)

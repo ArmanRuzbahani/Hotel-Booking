@@ -23,6 +23,6 @@ namespace Hotel_Booking_Domain.Core.Contracts.Repository
 
 		Task<bool> DeleteCommentAsync(int id, CancellationToken cancellationToken);
 
-		Task<bool> CommentManagment(int id, CancellationToken cancellationToken);
+		Task<bool> CommentManagment(int id, CancellationToken cancellationToken); //id == Comment id 
 	}
 }
