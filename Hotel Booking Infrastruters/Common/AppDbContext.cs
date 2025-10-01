@@ -57,5 +57,6 @@ namespace Hotel_Booking_Infrastruters.Common
 		public DbSet<HotelRules> hotelRules { get; set; }
 		public DbSet<HotelFood> hotelFood { get; set; }
 		public DbSet<ChatConversation> chatConversations { get; set; }
+		public DbSet<hotelInsurances> hotelInsurances { get; set; }
 	}
 }

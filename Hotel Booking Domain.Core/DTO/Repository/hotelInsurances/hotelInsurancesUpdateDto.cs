@@ -1,13 +1,12 @@
-﻿using Entitys_Hotel.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel_Booking_Domain.Core.Entitys
+namespace Hotel_Booking_Domain.Core.DTO.Repository.hotelInsurances
 {
-	public class hotelInsurances
+	public class hotelInsurancesUpdateDto
 	{
 		public int Id { get; set; }
 
@@ -22,12 +21,5 @@ namespace Hotel_Booking_Domain.Core.Entitys
 
 		// حوادث مهمانان
 		public bool GuestAccidentInsurance { get; set; } = false;
-
-		public Hotel? hotel { get; set; }
-
-		public int HotelId { get; set; }
-
-		public int Userid { get; set; }
-
 	}
 }

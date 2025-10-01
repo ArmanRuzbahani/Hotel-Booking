@@ -27,4 +27,16 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+    <Folder Include="Service\Adress\" />
+    <Folder Include="Service\Admin\" />
+    <Folder Include="Service\Comment\" />
+    <Folder Include="Service\Fascility\" />
+    <Folder Include="Service\HotelAddress\" />
+    <Folder Include="Service\HotelInsurances\" />
+    <Folder Include="Service\HotelManager\" />
+    <Folder Include="Service\Room\" />
+  </ItemGroup>
+
 </Project>
